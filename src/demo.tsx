@@ -2,7 +2,7 @@ import AceEditor from "react-ace";
 import * as React from 'react';
 
 import { useStore, ILink } from './store';
-// import {ForceGraph2D} from 'react-force-graph'
+
 import ForceGraph2d, {
     NodeObject
 } from "react-force-graph-2d";
@@ -18,21 +18,6 @@ const Demo = observer(() => {
     const store = useStore()
   
     return <div className="row">
-            {/* <style jsx>
-                {`
-                    .row {
-                    display: flex;
-                    }
-
-                    .columnA {
-                    flex: 20%;
-                    }
-
-                    .columnB {
-                    flex: 80%;
-                    }
-                `}
-            </style> */}
             <div className="columnA">
                 <AceEditor
                     mode="javascript"
