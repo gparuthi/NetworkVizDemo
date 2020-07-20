@@ -1,14 +1,20 @@
 import AceEditor from "react-ace";
 import * as React from 'react';
-import { observer } from 'mobx-react-lite';
 
 import { useStore, ILink } from './store';
-import {ForceGraph2D} from 'react-force-graph'
+// import {ForceGraph2D} from 'react-force-graph'
+import ForceGraph2d, {
+    NodeObject
+} from "react-force-graph-2d";
+import { observer } from 'mobx-react-lite';
 
-const ForceGraph = ForceGraph2D
+const ForceGraph = ForceGraph2d
+interface CustomNodeObject extends NodeObject {
+    color?: string;
+}
 interface Props { }
 
-const Demo = () => {
+const Demo = observer(() => {
     const store = useStore()
   
     return <div className="row">
@@ -65,24 +71,24 @@ const Demo = () => {
                     }}
                     // onEngineStop={() => fgRef.current.zoomToFit(400)}
                     nodeAutoColorBy="group"
-                    // nodeCanvasObject={(node, ctx, globalScale) => {
-                    //     const label = node.id as string;
-                    //     const fontSize = 18 / globalScale;
-                    //     ctx.font = `${fontSize}px Sans-Serif`;
-                    //     const textWidth = ctx.measureText(label).width;
-                    //     const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+                nodeCanvasObject={(node: CustomNodeObject, ctx, globalScale) => {
+                        const label = node.id as string;
+                        const fontSize = 18 / globalScale;
+                        ctx.font = `${fontSize}px Sans-Serif`;
+                        const textWidth = ctx.measureText(label).width;
+                        const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
 
-                    //     ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-                    //     ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, bckgDimensions[0], bckgDimensions[1]);
+                        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+                        ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, bckgDimensions[0], bckgDimensions[1]);
 
-                    //     ctx.textAlign = 'center';
-                    //     ctx.textBaseline = 'middle';
-                    //     ctx.fillStyle = node.color;
-                    //     ctx.fillText(label, node.x, node.y);
-                    // }}
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillStyle = node.color;
+                        ctx.fillText(label, node.x, node.y);
+                    }}
                 />
             </div>
         </div>
-}
+})
 
 export default Demo;

@@ -6,7 +6,6 @@ enum GroupType {
   "g" = "guarantor",
   "l" = "lender"
 }
-const Group = types.enumeration<GroupType>("Group", Object.values(GroupType))
 
 type INode = {
   id: string,
@@ -35,25 +34,25 @@ const ParseGraphText = (graphText: string) => {
   lines.forEach(line => {
     if (state === parseState.nodes) {
       let [id, group] = line.split(" ")
-      if (id != undefined && group != undefined) {
-        if (group == "g" || group == "b" || group == "l") {
+      if (id !== undefined && group !== undefined) {
+        if (group === "g" || group === "b" || group === "l") {
           let node: INode = {
             id: id,
             group: GroupType[group],
           }
-          if (nodes.length==0){
+          if (nodes.length===0){
             node['fx'] = -60
             node['fy'] = -60
           }
           nodes.push(node)
         }
-      } else if (line == "===Links") {
+      } else if (line === "===Links") {
         state = parseState.links
       }
     } else if (state === parseState.links) {
       let [source, target, value] = line.split(" ")
       // console.log(source, target, value)
-      if (source != undefined && target != undefined) {
+      if (source !== undefined && target !== undefined) {
         if (nodes.map(n => n.id).includes(source) && nodes.map(n => n.id).includes(target)) {
           links.push({
             source: source,
